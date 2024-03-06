@@ -1,0 +1,238 @@
+{
+  "title": "احجز ميعاد  بمكتب توثيق ",
+  "secondTitle": "قم بحجز ميعاد مسبق في اي مكتب توثيق في جميع انحاء الجمهورية",
+  "showSteps": true,
+  "wfId": "SNOT",
+  "serviceSlug": "SNOT-08",
+  "GAName": "SNOT",
+
+  "steps": [
+    {
+      "label": " حجز موعد",
+      "description": "",
+      "showNestedSteps": true,
+      "nestedSteps": [
+        {
+          "label": "حدد المكتب",
+          "description": " ",
+          "action": "SNOT_08_01",
+          "formData": [
+            {
+              "stepTitle": "3/1 خطوة",
+              "label": "اختر تفاصيل الميعاد",
+              "description": "حدد موقع و تاريخ التوثيق",
+              "type": "description"
+            },
+
+            {
+              "label": "المحافظة",
+              "code": "govTypes",
+              "serviceSlug": "SNOT",
+              "params": false,
+              "dynamic": true,
+              "functionAPI": "getLookUps",
+              "dependencies": [],
+              "labelKey": "name",
+
+              "id": "governmentalId",
+              "type": "select",
+              "name": "governmentalId",
+              "lg": 6,
+              "md": 6,
+              "tip": "",
+              "required": true
+            },
+            {
+              "label": "المكتب",
+              "type": "select",
+              "id": "organizationUnitId",
+              "name": "organizationUnitId",
+              "serviceSlug": "SNOT",
+              "code": "orgnizationUnitName",
+              "dynamic": true,
+              "params": true,
+              "labelKey": "name",
+              "functionAPI": "getLookUpsWithQueryString",
+              "object": [
+                {
+                  "key": "parent",
+                  "valueFromKey": "governmentalId"
+                }
+              ],
+              "dependencies": ["governmentalId"],
+              "lg": 6,
+              "md": 6,
+              "tip": "",
+              "required": true
+            },
+            {
+              "id": "submition2",
+              "type": "button",
+              "name": " التالي",
+              "arrow": true,
+              "lg": 6,
+              "color": "success",
+              "action": "submit"
+            }
+          ]
+        },
+        {
+          "label": "حدد الموعد",
+          "description": " ",
+          "action": "SNOT_08_02",
+          "formData": [
+            {
+              "stepTitle": "خطوة 3/2 ",
+              "label": "اختر تفاصيل الميعاد",
+              "description": "حدد موقع و تاريخ التوثيق",
+              "type": "description"
+            },
+            {
+              "data": "data.officeAgendaData.reservationDate",
+              "label": ["التاريخ", "الميعاد"],
+              "nameArray": ["reserveDate", "reserveTime"],
+              "accessKeys": ["datereserved", "reservationTime", "reserveTime"],
+              "type": "select",
+              "id": "officeAgendaData",
+              "name": "officeAgendaData",
+              "labelKey": "desc",
+              "required": true,
+              "cascaded": true,
+              "lg": 12,
+              "md": 12,
+              "dataFromKey": "officeAgendaData"
+            },
+            {
+              "id": "submition2",
+              "type": "button",
+              "name": " عودة",
+              "lg": 8,
+              "stepNumber": 0,
+              "nestedStepNumber": 0,
+              "action": "back"
+            },
+            {
+              "id": "submition",
+              "type": "button",
+              "name": "الخطوة التالية",
+              "lg": 4,
+              "color": "success",
+              "action": "submit",
+              "arrow": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "نوع المعاملة",
+      "description": "حدد نوع المعاملة",
+      "action": "SNOT_08_03",
+      "formData": [
+        {
+          "stepTitle": "خطوة 3/3 ",
+          "label": "نوع المعاملة",
+          "description":  "حدد نوع المعاملة التي ستقوم بإجرائها",
+          "type": "description"
+        },
+
+        {
+          "label": "نوع المعاملة",
+          "type": "select",
+          "id": "transactionTypeCategory",
+          "name": "transactionTypeCategory",
+          "code": "transactionCategories",
+          "serviceSlug": "SNOT",
+          "params": false,
+          "dynamic": true,
+          "functionAPI": "getLookUps",
+          "dependencies": [],
+          "labelKey": "name",
+          "maxLength": 10,
+          "lg": 6,
+          "md": 6,
+          "required": true
+        },
+        {
+          "label": " المعاملة",
+          "type": "select",
+          "id": "transactionTypeCode",
+          "name": "transactionTypeCode",
+          "serviceSlug": "SNOT",
+          "code": "transactionTypes",
+          "dynamic": true,
+          "params": true,
+          "labelKey": "name",
+          "functionAPI": "getLookUpsWithQueryString",
+          "object": [
+            {
+              "key": "parent",
+              "valueFromKey": "transactionTypeCategory"
+            }
+          ],
+          "dependencies": ["transactionTypeCategory"],
+          "maxLength": 10,
+          "lg": 6,
+          "md": 6,
+          "required": true
+        },
+        {
+          "id": "submition2",
+          "type": "button",
+          "name": " عودة",
+          "lg": 8,
+          "stepNumber": 0,
+          "nestedStepNumber": 1,
+          "action": "back"
+        },
+        {
+          "id": "submition",
+          "type": "button",
+          "name": " التالي",
+          "lg": 4,
+          "color": "success",
+          "action": "submit",
+          "arrow": true
+        }
+      ]
+    },
+    {
+      "label": " النتيجة ",
+      "description": " ",
+      "formData": [
+        {
+          "type": "feedback",
+          "id": "pay1",
+          "headLabel": "تم تلقي طلبك بنجاح!",
+
+          "layout": "result",
+          "items": [
+            {
+              "label": " رقم الطلب",
+              "value": "data.requestId"
+            },
+            {
+              "label": "رقم الطلب في الجهة",
+              "value": "data.GARequestId",
+              "color": "orange"
+            },
+            {
+              "label": "حالة الطلب",
+              "value": "data.message"
+            }
+          ],
+          "lg": 12
+        },
+        {
+          "id": "submition2",
+          "type": "button",
+          "name": " الرجوع للخدمات ",
+          "lg": 4,
+          "arrow": true,
+          "action": "navigate",
+          "link": "/"
+        }
+      ]
+    }
+  ]
+}
